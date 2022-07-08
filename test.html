@@ -8,8 +8,8 @@
     <title>Document</title>
     <style>
         .canvas {
-            width: 600px;
-            height: 400px;
+            width: 200vh;
+            height: 100vh;
         }
     </style>
 </head>
@@ -20,10 +20,34 @@
 <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
+    let X = 200;
+    let Y = 200;
+    let count = 0;
 
-    function charic() {
-        context.
+
+    function char() {
+        const CharImg = new Image();
+        CharImg.src = '../images/cat_front.png';
+        CharImg.addEventListener('load', () => {
+            context.drawImage(CharImg, X, 100, 70, 120);
+        })
+        X++;
+
     }
+    function drow() {
+        count++;
+        // context.clearRect(0, 0, canvas.width, canvas.height);
+        context.beginPath();
+        if (count % 10 === 0) {
+            char();
+        }
+
+
+        requestAnimationFrame(drow);
+    }
+    drow();
+
+
 </script>
 
 </html>
