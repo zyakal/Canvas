@@ -40,69 +40,80 @@
 <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
-    let X = 800;
-    let Y = 400;
+    canvas.width = window.innerWidth - 50;
+    canvas.height = window.innerHeight - 50;
+    const X = canvas.width * 0.5;
+    const Y = canvas.height * 0.5;
     let count = 0;
+    let direction;
+    document.onkeydown = keyDownEventHandler;
 
-    // canvas.width = window.innerWidth - 50;
-    // canvas.height = window.innerHeight - 50;
 
-    const CharImg = new Image();
-    console.log(CharImg);
-    CharImg.src = 'images/cat_front.png';
-    console.log(CharImg);
-    context.drawImage(CharImg, X, Y, 40, 60);
+    function move() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        char.drow();
+
+
+
+        if (count < 20) {
+            count++;
+            characterMove(direction);
+        }
+
+        // console.log(count);
+
+        requestAnimationFrame(move);
+
+    }
+
+
 
     function characterMove(direction) {
         switch (direction) {
-            case 0: y -= 1; break;
-            case 1: y += 1; break;
-            case 2: x -= 1; break;
-            case 3: x += 1; break;
+            case 0: char.CY -= 2; break;
+            case 1: char.CY += 2; break;
+            case 2: char.CX -= 2; break;
+            case 3: char.CX += 2; break;
             default: return;
-        }
-    };
+        };
+    }
 
     function keyDownEventHandler(e) {
-        if (e.keyCode == 38 && direction != 1) direction = 0; // up
-        else if (e.keyCode == 40 && direction != 0) direction = 1; // down
-        else if (e.keyCode == 37 && direction != 3) direction = 2; // left
-        else if (e.keyCode == 39 && direction != 2) direction = 3; // right
+        if (e.keyCode == 38) { direction = 0; count = 0; } // up
+        else if (e.keyCode == 40) { direction = 1; count = 0; } // down
+        else if (e.keyCode == 37) { direction = 2; count = 0; } // left
+        else if (e.keyCode == 39) { direction = 3; count = 0; } // right
     }
 
 
     let char = {
+        CX: X,
+        CY: Y,
         hat() {
             context.beginPath();
-            context.arc((X + 25), (Y + 10), 10, 0, Math.PI * 2, false);
+            context.arc((this.CX + 25), (this.CY + 10), 10, 0, Math.PI * 2, false);
             context.fill();
         },
-        body() {
+        body_front() {
             // count++;            
             const CharImg = new Image();
             CharImg.src = 'images/cat_front.png';
-            context.drawImage(CharImg, X, Y, 40, 60);
+            context.drawImage(CharImg, this.CX, this.CY, 40, 60);
+        },
+        body_behind() {
+            // count++;            
+            const CharImg = new Image();
+            CharImg.src = 'images/cat_behind.png';
+            context.drawImage(CharImg, this.CX, this.CY, 40, 60);
         },
         drow() {
             this.hat();
-            this.body();
+            if (direction === 0) { this.body_behind(); }
+            if (direction !== 0) { this.body_front(); }
         }
 
     }
-    char.drow();
-
-
-    // context.clearRect(0, 0, canvas.width, canvas.height);
-    // requestAnimationFrame(drow);
-    // drow(char);
-
-    // function move() {
-    //     window.addEventListener("keydown", e => {
-    //         switch (e) {
-    //             case e.key === "ArrowRight"
-    //     }
-    //     }
-    //     })
+    move();
 
 
 
