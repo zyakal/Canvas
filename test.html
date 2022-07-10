@@ -7,45 +7,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 95%;
+            height: 95%;
+            background-color: rgb(0, 0, 0);
+        }
+
         .canvas {
-            width: 200vh;
-            height: 100vh;
+            background-color: rgb(233, 233, 233);
+        }
+
+        .back {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 
 <body>
-    <canvas class="canvas" width="1200" height="800">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    <div class="back">
+        <canvas class="canvas" width="1680" height="900">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+    </div>
 </body>
 <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
-    let X = 200;
-    let Y = 200;
+    let X = 800;
+    let Y = 400;
     let count = 0;
 
+    // canvas.width = window.innerWidth - 50;
+    // canvas.height = window.innerHeight - 50;
 
-    function char() {
-        const CharImg = new Image();
-        CharImg.src = '../images/cat_front.png';
-        CharImg.addEventListener('load', () => {
-            context.drawImage(CharImg, X, 100, 70, 120);
-        })
-        X++;
+    const CharImg = new Image();
+    console.log(CharImg);
+    CharImg.src = 'images/cat_front.png';
+    console.log(CharImg);
+    context.drawImage(CharImg, X, Y, 40, 60);
 
+    function characterMove(direction) {
+        switch (direction) {
+            case 0: y -= 1; break;
+            case 1: y += 1; break;
+            case 2: x -= 1; break;
+            case 3: x += 1; break;
+            default: return;
+        }
+    };
+
+    function keyDownEventHandler(e) {
+        if (e.keyCode == 38 && direction != 1) direction = 0; // up
+        else if (e.keyCode == 40 && direction != 0) direction = 1; // down
+        else if (e.keyCode == 37 && direction != 3) direction = 2; // left
+        else if (e.keyCode == 39 && direction != 2) direction = 3; // right
     }
-    function drow() {
-        count++;
-        // context.clearRect(0, 0, canvas.width, canvas.height);
-        context.beginPath();
-        if (count % 10 === 0) {
-            char();
+
+
+    let char = {
+        hat() {
+            context.beginPath();
+            context.arc((X + 25), (Y + 10), 10, 0, Math.PI * 2, false);
+            context.fill();
+        },
+        body() {
+            // count++;            
+            const CharImg = new Image();
+            CharImg.src = 'images/cat_front.png';
+            context.drawImage(CharImg, X, Y, 40, 60);
+        },
+        drow() {
+            this.hat();
+            this.body();
         }
 
-
-        requestAnimationFrame(drow);
     }
-    drow();
+    char.drow();
+
+
+    // context.clearRect(0, 0, canvas.width, canvas.height);
+    // requestAnimationFrame(drow);
+    // drow(char);
+
+    // function move() {
+    //     window.addEventListener("keydown", e => {
+    //         switch (e) {
+    //             case e.key === "ArrowRight"
+    //     }
+    //     }
+    //     })
+
 
 
 </script>
