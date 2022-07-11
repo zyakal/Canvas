@@ -19,7 +19,7 @@
         }
 
         .canvas {
-            background-color: rgb(233, 233, 233);
+            background-color: rgb(196, 110, 53);
         }
 
         .back {
@@ -51,7 +51,9 @@
 
 
     function move() {
+
         context.clearRect(0, 0, canvas.width, canvas.height);
+        map.drow();
         char.drow();
 
 
@@ -99,13 +101,13 @@
             // count++;            
             const CharImg = new Image();
             CharImg.src = 'images/cat_front.png';
-            context.drawImage(CharImg, this.CX, this.CY, 40, 60);
+            context.drawImage(CharImg, this.CX, this.CY, 40, 40);
         },
         body_behind() {
             // count++;            
             const CharImg = new Image();
             CharImg.src = 'images/cat_behind.png';
-            context.drawImage(CharImg, this.CX, this.CY, 40, 60);
+            context.drawImage(CharImg, this.CX, this.CY, 40, 40);
         },
         drow() {
             this.hat();
@@ -114,6 +116,33 @@
         }
 
     }
+
+    let map = {
+        background() {
+            //가로줄
+            for (i = 0; i < canvas.height; i += 40) {
+                context.beginPath();
+                context.moveTo(0, i - 38);
+                context.lineTo(canvas.width, i - 38
+                );
+                context.stroke();
+                context.closePath();
+            }
+            //세로줄
+            for (i = 0; i < canvas.width; i += 40) {
+                context.beginPath();
+                context.moveTo(i - 25, 0);
+                context.lineTo(i - 25, canvas.height);
+                context.stroke();
+                context.closePath();
+            }
+        },
+        drow() {
+            this.background();
+        }
+    }
+
+
     move();
 
 
