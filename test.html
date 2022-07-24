@@ -46,8 +46,11 @@
     const Y = canvas.height * 0.5;
     let count = 0;
     let direction;
+    let moving;
+    let speed = 2;
     // window.onkeypress = (e) => { console.log(e); }
     document.onkeydown = keyDownEventHandler;
+
 
 
     function move() {
@@ -55,11 +58,16 @@
         context.clearRect(0, 0, canvas.width, canvas.height);
         map.drow();
         char.drow();
+        // document.onkeyup = (e) => { moving = e.keyCode; console.log(moving); }
+        // if (moving) { count = 0; console.log(moving); }
+        // moving = '';
 
 
-
-        if (count < 20) {
+        if (count < 40 / speed) {
             count++;
+
+
+
             characterMove(direction);
         }
 
@@ -73,10 +81,10 @@
 
     function characterMove(direction) {
         switch (direction) {
-            case 0: char.CY -= 2; break;
-            case 1: char.CY += 2; break;
-            case 2: char.CX -= 2; break;
-            case 3: char.CX += 2; break;
+            case 0: char.CY -= speed; break;
+            case 1: char.CY += speed; break;
+            case 2: char.CX -= speed; break;
+            case 3: char.CX += speed; break;
             default: return;
         };
     }
